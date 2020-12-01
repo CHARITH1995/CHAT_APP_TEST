@@ -7,7 +7,6 @@ import './Login.css'
 const Login = () => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
-
     const history = useHistory()
 
     const handleSubmit = (event) =>{
@@ -61,7 +60,7 @@ const Login = () => {
                     <a href="#" className="pull-center">Forgot Password?</a>
                 </div>
             </form>
-        </div>
+        </div>  
     )
 }
 

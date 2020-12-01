@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react';
-
+import React, { useEffect  } from 'react';
+import { Link , withRouter , useHistory } from 'react-router-dom';
 import onlineIcon from '../../icons/onlineIcon.png';
 import closeIcon from '../../icons/closeIcon.png';
 
 import './InfoBar.css';
 
-const InfoBar = ({ userName }) => {
-
-  // useEffect(()=>{
-  //   console.log(userName)
-  // })
+const InfoBar = ({ userName , show }) => {
+  
   return (
     <div class="infoBar">
       <div class="leftInnerContainer">
@@ -17,7 +14,7 @@ const InfoBar = ({ userName }) => {
         <h3>Hello {userName} !</h3>
       </div>
       <div class="rightInnerContainer">
-        {/* <a href="/Home"><img src={closeIcon} alt="close icon" /></a> */}
+        
       </div>
     </div>
   );

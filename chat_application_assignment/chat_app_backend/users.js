@@ -2,10 +2,7 @@ const users = []
 
 const addUser = ({id , firstName , lastName , email , defaultRoom }) =>{
     if(firstName != '' && lastName != '' && email != '' && defaultRoom != undefined){
-        const existingUser = users.find((user)=>user.id === id)
-        if(existingUser){    
-            return { error :'user already in'}
-        }
+        const existingUser = users.find((user)=>user.id === id);
 
         var onlineUser = {
             id,
@@ -14,8 +11,21 @@ const addUser = ({id , firstName , lastName , email , defaultRoom }) =>{
             email,
             defaultRoom
         }
+
+        if(existingUser){    
+            //return {onlineUser};
+            return { error :'user already in'}
+        }else{
+            var itemIndex = users.findIndex(user =>user.email == email);
+            if(users[itemIndex]){
+                console.log(users)
+                users[itemIndex] = onlineUser
+            }else{
+                users.push(onlineUser);
+            }
+
+        }
         console.log(users)
-        users.push(onlineUser);
 
         return {onlineUser};
     }
@@ -26,10 +36,10 @@ const addUser = ({id , firstName , lastName , email , defaultRoom }) =>{
 
 const removeUser = (id)=>{
 
-    const index = users.find((user)=>user.id===id);
+    const index = users.findIndex((user)=>user.id===id);
 
     if(index !== -1){
-        return users.splice(index,1)[0];
+        users.splice(index,1);
     }
 }
 

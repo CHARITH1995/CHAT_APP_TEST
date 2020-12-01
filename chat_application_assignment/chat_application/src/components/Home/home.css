@@ -67,6 +67,31 @@
   /* #page-content-wrapper {
     width: 100%;
   } */
+
+  .listSide{
+    align-items: center;
+    align-self: center;
+  }
+
+  .LPbtnCoverOut{
+    width: 20%;
+    text-align:center;
+  }
+  
+  .LPbtn1Out { 
+       align-self: center;
+    font-size: 18px;
+    font-weight: 100;
+    width : 150%;
+    border-radius:15px;
+    color: white;
+    background-color: #384987;
+  }
+
+  .inner{
+    flex-direction: row;
+    justify-content: space-between;
+  }
   
   
   

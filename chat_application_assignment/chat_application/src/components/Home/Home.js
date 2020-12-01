@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import { Container, Row, Col, Media, Button, Card, CardBody, CardImg, CardTitle, CardSubtitle, CardText } from 'reactstrap';
+import { Link, withRouter, useHistory } from 'react-router-dom';
 import './home.css';
 import jwt_decode from "jwt-decode";
 import io from 'socket.io-client';
-import { withRouter, Link } from "react-router-dom";
 
 import TextContainer from '../TextContainer/TextContainer';
 import Messages from '../Messages/Messages';
@@ -32,6 +32,8 @@ const Home = () => {
 
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
+
+    const history = useHistory()
 
     // useEffect(() => {
     //     console.log("here fetch")
@@ -96,35 +98,43 @@ const Home = () => {
 
     const sendMessage = (e) => {
         var typedMessage = {
-            text:message,
-            user:firstName
+            text: message,
+            user: firstName
         }
         setMessages(messages => [...messages, typedMessage]);
 
         e.preventDefault();
         if (message) {
             var msg = {
-                text:message,
-                id:chattingUserID
+                text: message,
+                id: chattingUserID
             }
             socket.emit('sendMessage', msg, () => setMessage(''));
         }
     }
 
+    const handleSubmit = () => {
+        localStorage.clear();
+        history.push('/');
+    }
 
     return (
         <MDBContainer fluid className="HPpageBackground">
-            <MDBRow>    
-                <InfoBar userName={firstName} />
+            <MDBRow>
+                {/* <InfoBar userName={firstName} show = {false} /> */}
                 <MDBCol xl="4" lg="4" md="4" style={{ padding: "0px" }} >
                     <div className="NBbackground">
                         <div id="sidebar-wrapper">
                             <nav id="spy">
                                 <ul className="sidebar-nav nav">
-                                    <li className="sidebar-brand">
-                                        <a href="#"><span className="NBbrand">CHAT APP</span></a>
-
-                                    </li>
+                                    <div className = "listSide">
+                                        <li className="sidebar-brand">
+                                            <button type="submit" class="LPbtn1Out" onClick={handleSubmit}>Logout</button>
+                                            <a href="#"><span className="NBbrand">Hello {firstName} !!</span></a>
+                                        </li>
+                                    </div>
+                                    <div>
+                                    </div>
                                     {
                                         onlineUsers && onlineUsers.map((user, index) =>
                                             user.email !== email ? (
@@ -152,7 +162,7 @@ const Home = () => {
                         chattingUserName != '' ? (
                             <div className="outerContainer">
                                 <div className="container">
-                                    <InfoBar userName={chattingUserName} />
+                                    <InfoBar userName={chattingUserName} show={false} />
                                     <Messages messages={messages} name={firstName} />
                                     <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
                                 </div>

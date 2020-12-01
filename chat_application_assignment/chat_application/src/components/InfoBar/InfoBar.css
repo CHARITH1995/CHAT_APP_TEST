@@ -1,5 +1,4 @@
 .infoBar {
-  align-items: center;
   background: #1d1438;
   height: 50px;
   width: 100%;
@@ -7,7 +6,6 @@
 }
 
 .leftInnerContainer {
- 
   display: flex;
   align-items: center;
   margin-left: 5%;
@@ -23,4 +21,19 @@
 
 .onlineIcon {
   margin-right: 5%;
+}
+
+.LPbtnCoverOut{
+  width: 100%;
+  text-align:center;
+}
+
+.LPbtn1Out {        
+  font-size: 15px;
+  font-weight: 500;
+  width : 100%;
+  padding:7px;
+  border-radius: 15px;
+  color: white;
+  background-color: #384987;
 }

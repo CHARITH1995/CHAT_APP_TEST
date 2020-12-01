@@ -31,13 +31,13 @@ io.on('connection', (socket) => {
   socket.on('join', ({ firstName, lastName, email, defaultRoom }, callback) => {
     const { error, onlineUser } = addUser({ id: socket.id, firstName, lastName, email, defaultRoom });
     socket.join(onlineUser.defaultRoom);
-
+ 
     if (error) {
       io.to(defaultRoom).emit('roomData', { room: defaultRoom, users: getOnlineUsers() });
       return callback(error);
     }
-    socket.emit('message', { user: 'admin', text: `${onlineUser.firstName}, welcome to room ${onlineUser.defaultRoom}.`});
-    socket.broadcast.to(onlineUser.defaultRoom).emit('message', { user: 'admin', text: `${onlineUser.firstName} has joined!` });
+    // socket.emit('message', { user: 'admin', text: `${onlineUser.firstName}, welcome to room ${onlineUser.defaultRoom}.`});
+    // socket.broadcast.to(onlineUser.defaultRoom).emit('message', { user: 'admin', text: `${onlineUser.firstName} has joined!` });
     io.to(onlineUser.defaultRoom).emit('roomData', { room: onlineUser.defaultRoom, users: getOnlineUsers() });
     callback();
 
