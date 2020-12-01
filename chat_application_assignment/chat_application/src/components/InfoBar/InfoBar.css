@@ -1,0 +1,26 @@
+.infoBar {
+  align-items: center;
+  background: #1d1438;
+  height: 50px;
+  width: 100%;
+  border-radius:5px;
+}
+
+.leftInnerContainer {
+ 
+  display: flex;
+  align-items: center;
+  margin-left: 5%;
+  color: white;
+}
+
+.rightInnerContainer {
+  display: flex;
+ 
+  justify-content: flex-end;
+  margin-right: 5%;
+}
+
+.onlineIcon {
+  margin-right: 5%;
+}

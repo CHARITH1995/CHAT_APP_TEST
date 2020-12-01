@@ -1,0 +1,80 @@
+.form {
+  display: flex;
+  border-top: 2px solid #D3D3D3;
+  align-self: center;
+  position: absolute;
+  bottom: 0;
+  width: 75%;
+}
+
+.input {
+  border: none;
+  border-radius: 5px;
+  padding: 5%;
+  width: 80%;
+  font-size: 1.2em;
+}
+
+input:focus, textarea:focus, select:focus{
+  outline: none;
+}
+
+.sendButton {
+  color: #fff !important;
+  background: #1d1438;
+  border-radius: 10px;
+  padding: 10px;
+  display: inline-block;
+  border: none;
+  width: 20%;
+}
+
+/* .form {
+  position: absolute;
+  bottom: 0;
+  flex-direction: row;
+  justify-content: center;
+  align-self: center;
+}
+
+.input {
+  border: none;
+  border-radius: 0;
+  padding: 5%;
+  width: 100%;
+  font-size:18;
+}
+
+input:focus, textarea:focus, select:focus{
+  outline: none;
+}
+
+.sendButton {
+  color: #fff !important;
+  background: #1d1438;
+  border-radius:10px;
+  border: none;
+  width: 15%;
+  padding: 20px;
+}
+
+.typeField{
+  width:73%;
+  padding: 5px 10px 5px 10px;
+  border-radius: 15px;
+  border: 1px solid rgb(230, 230, 230);
+  margin-top: 1vh;
+  height: 70px;
+}
+
+.typeContainer{
+  position: absolute;
+  bottom:0;
+}
+
+/* .buttonContainer{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+} */ 
+

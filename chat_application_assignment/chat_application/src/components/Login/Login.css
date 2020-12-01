@@ -1,0 +1,66 @@
+.login-form {
+    width: 100%;
+    margin: auto;
+}
+.login-form form {
+    /* margin-bottom: 15px; */
+    /* background: #f7f7f7;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 30px; */
+    width: 100%;
+    margin-top: 5vh;
+}
+.login-form h2 {
+    margin: 0 0 15px;
+}
+.form-control, .btn {
+    min-height: 38px;
+    border-radius: 2px;
+}
+
+.LPbtnCover{
+    width: 100%;
+    text-align:center;
+}
+
+.LPbtn1 {        
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 3vh;
+    width : 90%;
+    padding:7px;
+    border-radius: 15px;
+    color: white;
+    background-color: #1d1438;
+}
+
+.loginLogoCover{
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 8vh;
+}
+
+.LoginInputField{
+    width:100%;
+    padding: 5px 10px 5px 10px;
+    border-radius: 15px;
+    border: 1px solid rgb(230, 230, 230);
+    margin-top: 1vh;
+}
+
+.clearfix{
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.pull-center{
+    color: #1d1438;
+}
+.signUp-link{
+    font-size: large;
+    color: #1d1438;
+
+}
+
