@@ -14,7 +14,6 @@ exports.userLogin = (req) => {
             if (result.length == 0) {
                 return resolve({ message: 'not a valid user' });
             } else {
-                //console.log(JSON.stringify(result))
                 var userPassword = result[0].password;
                 if (validations.verifyPassword(req.body.password, userPassword)) {
                     let token = jwt.sign(JSON.stringify(result[0]), process.env.SECRETKEY);

@@ -13,7 +13,6 @@ const addUser = ({id , firstName , lastName , email , defaultRoom }) =>{
         }
 
         if(existingUser){    
-            //return {onlineUser};
             return { error :'user already in'}
         }else{
             var itemIndex = users.findIndex(user =>user.email == email);

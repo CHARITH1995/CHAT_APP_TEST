@@ -8,10 +8,8 @@ import jwt_decode from "jwt-decode";
 import io from 'socket.io-client';
 
 import Messages from '../Messages/Messages';
-import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
 import { toast } from 'react-toastify';
-import ChatList from '../List/List';
 
 import fireDB from '../../configs/Firebase';
 
@@ -49,11 +47,10 @@ const Home = () => {
             .then(res => res.json())
             .then(json => {
                 setUsers(json)
-
             }).catch(err=>{
                 console.log(err)
             })
-    },[users])
+    },[])
 
     useEffect(() => {
         socket = io(ENDPOINT);
@@ -153,29 +150,34 @@ const Home = () => {
 
     const getTheUSerListWithStats = () => {
         let usersWithStatus = [];
-        users && users.map((allUsers, index) => {
+        //console.log(JSON.stringify(users))
+         users.map((allUsers, index) => {
             let isOnline = onlineUsers.find((online) => online.email == allUsers.email);
             if (isOnline) {
                 usersWithStatus.push(isOnline)
             } else {
                 usersWithStatus.push(allUsers)
             }
+           
         })
+        //console.log(usersWithStatus)
         return (
             usersWithStatus.map((user, index) =>
                 user.email != email ? (
                     user.id != undefined ? (
                         <div class="chat_list" >
                             <div class="chat_people">
+                            {console.log("on",user)}
                                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
                                 <div class="chat_ib" onClick={e => { e.preventDefault(); startChat(user) }}>
                                     <h5>{user.firstName}{" "}{user.lastName}
-                                        <span className="dot"></span></h5>
+                                    <span className="dot"></span></h5>
                                 </div>
                             </div>
                         </div>
                     ) : (
                             <div class="chat_list" onClick={e => { e.preventDefault(); startChat(user) }} >
+                                {console.log("off",user)}
                                 <div class="chat_people">
                                     <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
                                     <div class="chat_ib">
