@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link , withRouter , useHistory } from 'react-router-dom';
+import { Link, withRouter, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import './Login.css'
 
@@ -9,34 +9,34 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const history = useHistory()
 
-    const handleSubmit = (event) =>{
+    const handleSubmit = (event) => {
         event.preventDefault();
         const user = {
-            userName : userName,
-            password : password
+            userName: userName,
+            password: password
         }
-        fetch("http://localhost:5000/user/login",{
+        fetch("http://localhost:5000/user/login", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(user)
-          })
+        })
             .then(res => res.json())
             .then(json => {
                 //console.log(JSON.stringify(json))
-              if(json.success){
-                 toast.success("You are logged in :) ");
-                 localStorage.clear();
-                 localStorage.setItem('token',json.token);
-                history.push('/Home');
-                window.location.reload(true);
-              }else{
-                toast.error("Error logging in :( ");
-              }
-        }).catch(error =>{
-            console.log(error)
-        })
+                if (json.success) {
+                    toast.success("You are logged in :) ");
+                    localStorage.clear();
+                    localStorage.setItem('token', json.token);
+                    history.push('/Home');
+                    window.location.reload(true);
+                } else {
+                    toast.error("Error logging in :( ");
+                }
+            }).catch(error => {
+                console.log(error)
+            })
 
     }
 
@@ -45,7 +45,7 @@ const Login = () => {
             <form>
                 <div className="loginLogoCover">
                     <img src={"http://i68.tinypic.com/20qfktv.png"} width="200" height="200" alt="" />
-                    <h6 className="signUp-link" >Or You can <Link to ={"/Register"}> register using here</Link></h6>
+                    <h6 className="signUp-link" >Or You can <Link to={"/Register"}> register using here</Link></h6>
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Username" required="required" className="LoginInputField" name="userName" onChange={(event) => setUserName(event.target.value)} />
@@ -62,7 +62,7 @@ const Login = () => {
                     <a href="#" className="pull-center">Forgot Password?</a>
                 </div>
             </form>
-        </div>  
+        </div>
     )
 }
 
