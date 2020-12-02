@@ -82,7 +82,9 @@ const Home = () => {
         });
 
         socket.on('message', msg => {
-            console.log("here",msg)
+            // if((msg.user == chattingUserName)||(chattingUserName != '')){
+            //     toast.warn(`You received a message from ${msg.user}`)
+            // }
             setMessages(messages => [...messages, msg]);
         });
     }, [firstName, lastName, email]);
