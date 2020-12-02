@@ -17,7 +17,6 @@ import ChatList from '../List/List';
 import fireDB from '../../configs/Firebase';
 
 let socket;
-var onlineUsers = []
 
 const Home = () => {
 
@@ -38,10 +37,9 @@ const Home = () => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
 
-    const history = useHistory()
+    let history = useHistory()
 
     useEffect(() => {
-        console.log("here fetch")
         fetch("http://localhost:5000/user/getAllUsers", {
             method: "GET",
             headers: {
@@ -83,7 +81,9 @@ const Home = () => {
         });
 
         socket.on('message', msg => {
-            if((msg.user == chattingUserName)){
+            console.log(chattingUserName)
+            if(msg.user == chattingUserName) {
+                alert("here")
                 toast.warn(`You received a message from ${msg.user}`)
             }
             setMessages(messages => [...messages, msg]);
@@ -101,11 +101,12 @@ const Home = () => {
     }, [])
 
     const startChat = (user) => {
-        setChattinguserName(user.firstName)
-        setChattinguserID(user.id);
         setMessages([])
+        setChattinguserName(user.firstName)
+        setChattinguserID(user.id); 
         Object.keys(chatHistory).map(id => {
-            if ((chatHistory[id].receiver == chattingUserName && chatHistory[id].user == firstName) || (chatHistory[id].receiver == firstName && chatHistory[id].user == chattingUserName)) {
+            if ((chatHistory[id].receiver == chattingUserName && chatHistory[id].user == firstName) || 
+            (chatHistory[id].receiver == firstName && chatHistory[id].user == chattingUserName)) {
                 var chatMessages = {
                     text: chatHistory[id].text,
                     user: chatHistory[id].user,
@@ -154,7 +155,7 @@ const Home = () => {
 
     }
 
-    const handleSubmit = () => {
+    const logOut = () => {
         localStorage.clear();
         history.push('/');
     }
@@ -170,18 +171,30 @@ const Home = () => {
                 usersWithStatus.push(allUsers)
             }
         })
+        // alert(JSON.stringify(usersWithStatus))
         return (
             usersWithStatus.map((user, index) =>
                 user.email != email ? (
                     user.id != undefined ? (
-                        <li key={index} className="item-class">
-                            <span className="NBlink" onClick={e => { e.preventDefault(); startChat(user) }} >{user.firstName}{" "}{user.lastName}</span>
-                            <span className="dot"></span>
-                        </li>
+                        <div class="chat_list" >
+                            <div class="chat_people">
+                                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
+                                <div class="chat_ib" onClick={e => { e.preventDefault(); startChat(user) }}>
+                                    <h5>{user.firstName}{" "}{user.lastName}
+                                        <span className="dot"></span></h5>
+                                </div>
+                            </div>
+                        </div>
                     ) : (
-                            <li key={index} className="item-class">
-                                <span className="NBlink" onClick={e => { e.preventDefault(); startChat(user) }} >{user.firstName}{" "}{user.lastName}</span>
-                            </li>
+                            <div class="chat_list" onClick={e => { e.preventDefault(); startChat(user) }} >
+                                <div class="chat_people">
+                                    <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
+                                    <div class="chat_ib">
+                                        <h5>{user.firstName}{" "}{user.lastName}
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
                         )
 
                 ) : null
@@ -191,46 +204,39 @@ const Home = () => {
 
     }
     return (
-        <MDBContainer fluid className="HPpageBackground">
-            <MDBRow>
-                <MDBCol xl="4" lg="4" md="4" style={{ padding: "0px" }} >
-                    <div className="NBbackground">
-                        <div id="sidebar-wrapper">
-                            <nav id="spy">
-                                <ul className="sidebar-nav nav">
-                                    <div className="listSide">
-                                        <li className="sidebar-brand">
-                                            <button type="submit" class="LPbtn1Out" onClick={handleSubmit}>Logout</button>
-                                            <a href="#"><span className="NBbrand">Hello {firstName} !!</span></a>
-                                        </li>
-                                    </div>
-                                    <div>
-                                    </div>
-                                    {getTheUSerListWithStats()}
-                                </ul>
-                            </nav>
+        <div class="container">
+            <h3 class=" text-center">{chattingUserName}</h3>
+            <button type="button" onClick = {(e)=>{e.preventDefault();logOut()}}> <i class="fa fa-search" aria-hidden="true">Logout</i></button>
+            <div class="messaging">
+                <div class="inbox_msg">
+                    <div class="inbox_people">
+                        <div class="headind_srch">
+                            <div class="recent_heading">
+                                <h4>Hi {firstName} !!</h4>
+                            </div>
+                        </div>
+                        <div class="inbox_chat">
+                            {getTheUSerListWithStats()}
                         </div>
                     </div>
-                </MDBCol>
-                <MDBCol xl="8" lg="8" md="8">
-                    {
-                        chattingUserName != '' ? (
-                            <div className="outerContainer">
-                                <div className="container">
-                                    <InfoBar userName={chattingUserName} show={false} />
-                                    <Messages messages={messages} name={firstName} currentUser = {chattingUserName}/>
-                                    <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
-                                </div>
-                            </div>
-                        ) : null
-                    }
-                </MDBCol>
-            </MDBRow>
-        </MDBContainer>
+                    <div class="mesgs">
+                        <div class="msg_history">
+                            <Messages messages={messages} name={firstName} currentUser={chattingUserName} />
+                        </div>
+                        <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
 
 export default Home;
+
+
+
+
+
 
 
 
