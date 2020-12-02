@@ -39,10 +39,11 @@ const Home = () => {
 
     let history = useHistory()
 
-    useEffect(() => {
-        fetch("http://localhost:5000/user/getAllUsers", {
+    useEffect(()=>{
+        fetch("http://localhost:5000/getData/getAllUsers", {
             method: "GET",
             headers: {
+                "authorization":localStorage.getItem('token'),
                 "Content-Type": "application/json",
             },
         })
@@ -50,22 +51,13 @@ const Home = () => {
             .then(json => {
                 setUsers(json)
 
-            });
-    }, [])
+            }).catch(err=>{
+                console.log(err)
+            })
+    },[users])
 
     useEffect(() => {
         socket = io(ENDPOINT);
-        fetch("http://localhost:5000/user/getAllUsers", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then(res => res.json())
-            .then(json => {
-                setUsers(json)
-
-            });
         if (firstName != '' && lastName != '' && email != '') {
             socket.emit('join', { firstName, lastName, email, defaultRoom }, (error) => {
                 if (error) {
@@ -73,7 +65,7 @@ const Home = () => {
                 }
             });
         }
-    }, []);
+    }, [ENDPOINT]);
 
     useEffect(() => {
         socket.on("roomData", ({ users }) => {
@@ -81,9 +73,7 @@ const Home = () => {
         });
 
         socket.on('message', msg => {
-            console.log(chattingUserName)
             if(msg.user == chattingUserName) {
-                alert("here")
                 toast.warn(`You received a message from ${msg.user}`)
             }
             setMessages(messages => [...messages, msg]);
@@ -94,7 +84,6 @@ const Home = () => {
     useEffect(() => {
         fireDB.child('messages').on('value', snapshot => {
             if (chatHistory.length == 0 && snapshot.val() != null) {
-                console.log(chatHistory)
                 setChatHistory(snapshot.val())
             }
         })
@@ -158,12 +147,13 @@ const Home = () => {
     const logOut = () => {
         localStorage.clear();
         history.push('/');
+        window.location.reload(true);
     }
 
 
     const getTheUSerListWithStats = () => {
         let usersWithStatus = [];
-        users.map((allUsers, index) => {
+        users && users.map((allUsers, index) => {
             let isOnline = onlineUsers.find((online) => online.email == allUsers.email);
             if (isOnline) {
                 usersWithStatus.push(isOnline)
@@ -171,7 +161,6 @@ const Home = () => {
                 usersWithStatus.push(allUsers)
             }
         })
-        // alert(JSON.stringify(usersWithStatus))
         return (
             usersWithStatus.map((user, index) =>
                 user.email != email ? (

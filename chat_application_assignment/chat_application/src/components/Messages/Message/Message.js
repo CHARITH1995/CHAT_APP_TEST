@@ -13,20 +13,13 @@ const Message = ({ message: { text, user }, name, currentUser }) => {
     isSentByCurrentUser = true;
   }
 
-  // if((currentUser == user)){
   return (
     isSentByCurrentUser
       ? (
-        // <div className="messageContainer justifyEnd">
-        //   <p className="sentText pr-10">{trimmedName}</p>
-        //   <div className="messageBox backgroundBlue">
-        //     <p className="messageText colorWhite">{ReactEmoji.emojify(text)}</p>
-        //   </div>
-        // </div>
         <div class="outgoing_msg">
           <div class="sent_msg">
             <p>{ReactEmoji.emojify(text)}</p>
-            <span class="time_date">{trimmedName}</span> </div>
+            <span class="time_date">me</span> </div>
         </div>
 
       )
@@ -40,18 +33,9 @@ const Message = ({ message: { text, user }, name, currentUser }) => {
                 <span class="time_date">{user}</span></div>
             </div>
           </div>
-          // <div className="messageContainer justifyStart">
-          //   <div className="messageBox backgroundLight">
-          //     <p className="messageText colorDark">{ReactEmoji.emojify(text)}</p>
-          //   </div>
-          //   <p className="sentText pl-10 ">{user}</p>
-          // </div>
         ) : null
       )
   );
-  // }else{
-  //   return <div></div>
-  // }
 }
 
 export default Message;

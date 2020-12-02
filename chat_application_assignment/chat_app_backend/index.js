@@ -17,6 +17,7 @@ const { addUser, removeUser, getUser, getOnlineUsers } = require('./users')
 
 var userRoutes = require('./routes/routes');
 const con = require('./config/connection/connection');
+const jwtHelper = require('./config/vertifyToken/jwtHelper');
 
 const PORT = process.env.PORT || 5000
 
@@ -62,6 +63,7 @@ io.on('connection', (socket) => {
 })
 
 app.use('/user', userRoutes);
+app.use('/getData',jwtHelper.verifyJwtToken,userRoutes);
 
 
 
