@@ -34,6 +34,10 @@
     margin-top: -16px;
   }
 
+  .container{
+    height: 90%;
+  }
+
 
   .NBbackground{
     background-color: rgb(82, 90, 101);

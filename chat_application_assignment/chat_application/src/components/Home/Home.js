@@ -11,7 +11,9 @@ import Messages from '../Messages/Messages';
 import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
 
-import ChatList from '../List/List'
+import ChatList from '../List/List';
+
+import fireDB from '../../configs/Firebase';
 
 let socket;
 var onlineUsers = []
@@ -24,6 +26,8 @@ const Home = () => {
     const [email, setEmail] = useState(jwt_decode(localStorage.getItem('token')).email);
     const [defaultRoom, setDefaultRoom] = useState('Home')
     const [onlineUsers, setOnlineUsers] = useState([])
+
+    const [chatHistory, setChatHistory] = useState([])
 
     const [chattingUserName, setChattinguserName] = useState('')
     const [chattingUserID, setChattinguserID] = useState('')
@@ -71,10 +75,6 @@ const Home = () => {
                 }
             });
         }
-
-        socket.on("roomData", ({ users }) => {
-            setOnlineUsers(users);
-        });
     }, []);
 
     useEffect(() => {
@@ -86,31 +86,67 @@ const Home = () => {
             console.log("mess", msg)
             setMessages(messages => [...messages, msg]);
         });
-    }, [firstName, lastName, email])
+    }, [firstName, lastName, email]);
+
+
+    useEffect(()=>{
+        fireDB.child('messages').on('value', snapshot => {
+            if(chatHistory.length == 0 ){
+                console.log("again inside")
+                console.log(chatHistory)
+                console.log(Object.keys(snapshot.val()))
+
+                setChatHistory(snapshot.val())
+            }
+        })
+    },[])
+
+
 
 
     const startChat = (user) => {
-        var name = user.firstName + " " + user.lastName
+        var name = user.firstName
         setChattinguserName(name)
-        setChattinguserID(user.id)
+        setChattinguserID(user.id);
         setMessages([])
+        Object.keys(chatHistory).map(id =>{
+            console.log(chatHistory[id])
+            if ((chatHistory[id].receiver == chattingUserName && chatHistory[id].user == firstName) || (chatHistory[id].receiver == firstName && chatHistory[id].user == chattingUserName)) {
+                var chatMessages = {
+                    text: chatHistory[id].text,
+                    user: chatHistory[id].user,
+                    receiver: chatHistory[id].receiver
+                }
+                setMessages(messages => [...messages, chatMessages]);
+            }
+        })
+
     }
 
     const sendMessage = (e) => {
-        var typedMessage = {
-            text: message,
-            user: firstName
-        }
-        setMessages(messages => [...messages, typedMessage]);
-
         e.preventDefault();
         if (message) {
+            var typedMessage = {
+                text: message,
+                user: firstName,
+                receiver: chattingUserName
+            }
+
+            fireDB.child('messages').push(
+                typedMessage,
+                error => {
+                    if (error)
+                        console.log(error)
+                }
+            )
             var msg = {
                 text: message,
                 id: chattingUserID
             }
             socket.emit('sendMessage', msg, () => setMessage(''));
+            setMessages(messages => [...messages, typedMessage]);
         }
+
     }
 
     const handleSubmit = () => {
@@ -127,7 +163,7 @@ const Home = () => {
                         <div id="sidebar-wrapper">
                             <nav id="spy">
                                 <ul className="sidebar-nav nav">
-                                    <div className = "listSide">
+                                    <div className="listSide">
                                         <li className="sidebar-brand">
                                             <button type="submit" class="LPbtn1Out" onClick={handleSubmit}>Logout</button>
                                             <a href="#"><span className="NBbrand">Hello {firstName} !!</span></a>
@@ -138,15 +174,13 @@ const Home = () => {
                                     {
                                         onlineUsers && onlineUsers.map((user, index) =>
                                             user.email !== email ? (
-                                                <li key={index} className="item-class" onClick={(e) => startChat(user)} >
-                                                    <div className="inner-items">
-                                                        <span className="NBlink">{user.firstName}{" "}{user.lastName}</span>
-                                                        {
-                                                            onlineUsers.find((onlineUser) => onlineUser.email == user.email) ? (
-                                                                <span className="dot"></span>
-                                                            ) : null
-                                                        }
-                                                    </div>
+                                                <li key={index} className="item-class">
+                                                    <span className="NBlink" onClick={e => { e.preventDefault(); startChat(user) }} >{user.firstName}{" "}{user.lastName}</span>
+                                                    {
+                                                        onlineUsers.find((onlineUser) => onlineUser.email == user.email) ? (
+                                                            <span className="dot"></span>
+                                                        ) : null
+                                                    }
                                                 </li>
                                             ) : null
 
