@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState , } from 'react'
+import { Link , useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import './Register.css'
 
@@ -10,6 +10,7 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const history = useHistory()
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -32,13 +33,15 @@ const Register = () => {
                 .then(json => {
                     if (json.success) {
                         toast.success("You are Registered successfully :) ");
-                        // localStorage.clear();
-                        //  localStorage.setItem('token',json.token);
-                        //  localStorage.setItem('teacherId',json.userData.teacherId);
-                        //this.props.history.push('/Home');
+                        localStorage.clear();
+                        localStorage.setItem('token',json.token);
+                        history.push('/Home');
+                        window.location.reload(true);
                     } else {
                         toast("Error logging in :( ");
                     }
+                }).catch(error =>{
+                    console.log(error)
                 })
 
         } else {

@@ -7,7 +7,6 @@ import './home.css';
 import jwt_decode from "jwt-decode";
 import io from 'socket.io-client';
 
-import TextContainer from '../TextContainer/TextContainer';
 import Messages from '../Messages/Messages';
 import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
@@ -90,6 +89,7 @@ const Home = () => {
     }, [])
 
     const startChat = (user) => {
+        //window.location.reload(true);
         setMessages([])
         setChattinguserName(user.firstName)
         setChattinguserID(user.id); 

@@ -26,14 +26,16 @@ const Login = () => {
             .then(json => {
                 //console.log(JSON.stringify(json))
               if(json.success){
-                 console.log(JSON.stringify(json))
                  toast.success("You are logged in :) ");
                  localStorage.clear();
                  localStorage.setItem('token',json.token);
                 history.push('/Home');
+                window.location.reload(true);
               }else{
                 toast.error("Error logging in :( ");
               }
+        }).catch(error =>{
+            console.log(error)
         })
 
     }

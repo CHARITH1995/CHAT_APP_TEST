@@ -15,9 +15,7 @@ import Home from './components/Home/Home';
 
 
 const App = () => {
-
     return (
-
         <Router>
             <ToastContainer />
             <Route path="/" exact component={Login} />
