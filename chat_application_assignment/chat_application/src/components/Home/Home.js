@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+
 import { Container, Row, Col, Media, Button, Card, CardBody, CardImg, CardTitle, CardSubtitle, CardText } from 'reactstrap';
 import { Link, withRouter, useHistory } from 'react-router-dom';
 import './home.css';
@@ -82,7 +83,7 @@ const Home = () => {
         });
 
         socket.on('message', msg => {
-            if((msg.user == chattingUserName)||(chattingUserName != '')){
+            if((msg.user == chattingUserName)){
                 toast.warn(`You received a message from ${msg.user}`)
             }
             setMessages(messages => [...messages, msg]);
