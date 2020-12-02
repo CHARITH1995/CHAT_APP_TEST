@@ -36,8 +36,6 @@ io.on('connection', (socket) => {
       io.to(defaultRoom).emit('roomData', { room: defaultRoom, users: getOnlineUsers() });
       return callback(error);
     }
-    // socket.emit('message', { user: 'admin', text: `${onlineUser.firstName}, welcome to room ${onlineUser.defaultRoom}.`});
-    // socket.broadcast.to(onlineUser.defaultRoom).emit('message', { user: 'admin', text: `${onlineUser.firstName} has joined!` });
     io.to(onlineUser.defaultRoom).emit('roomData', { room: onlineUser.defaultRoom, users: getOnlineUsers() });
     callback();
 
